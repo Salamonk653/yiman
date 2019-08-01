@@ -1,0 +1,115 @@
+{% extends 'ru/base.html' %}
+
+{% block content %}
+    <div class="w3-card-4 w3-display-container w3-text-black w3-center w3-mobile" style="height: 100px">
+        <h2 class="w3-display-middle"><b>{{ album.ru_name|upper }}</b></h2>
+    </div>
+    <hr class="w3-border-amber">
+    <div class="w3-container">
+        <div class="w3-row-padding" style="background-color: #dddddd">
+            {% for album in page_obj %}
+
+                <div class="w3-quarter w3-margin-top">
+                    <div class="w3-card-4 w3-section">
+
+                        <img src="{{ album.image.url }}" alt="Alps" style="width:100%">
+                        <div class="w3-container w3-center">
+                            {% if album.ru_description %}
+                                <p>{{ album.ru_description|truncatechars:35 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% include 'paginator.html' %}
+
+
+        <div id="myModal" class="w3-modal w3-black">
+            <span class="w3-text-white w3-xxlarge w3-hover-text-grey w3-container w3-display-topright"
+                  onclick="closeModal()" style="cursor:pointer">×</span>
+
+
+            <div class="w3-modal-content">
+                <div class="w3-container w3-black">
+                    <div class="w3-display-container" style="width: 60%; height: 40%;">
+
+                        {% for image in page_obj %}
+                            {#                            <img id="img01" style="width:100%">#}
+                            <img class="mySlides demo" src="{{ image.image.url }}" {% if image.ru_description %}
+                                 alt="{{ image.ru_description }}" {% endif %} id="{{ image.id }}" style="width:100%">
+                        {% endfor %}
+                        <span class="w3-display-left w3-btn" onclick="plusDivs(-1)">❮</span>
+                        <span class="w3-display-right w3-btn" onclick="plusDivs(1)">❯</span>
+                        <!-- End row -->
+                    </div>
+                    <div class="w3-row w3-black w3-right">
+                        <div class="">
+                            <p id="caption"></p>
+
+
+                        </div>
+
+
+                    </div><!-- End w3-content -->
+                </div>
+            </div> <!-- End modal content -->
+        </div> <!-- End modal -->
+
+    </div>
+
+
+
+{% endblock %}
+{% block script %}
+    <script>
+        function openModal() {
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function currentDiv(n) {
+            showDivs(slideIndex = n);
+            {#document.getElementById("img01").src = element.src;#}
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            var captionText = document.getElementById("caption");
+            if (n > x.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].nastroiki.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+            }
+            //
+            x[slideIndex - 1].nastroiki.display = "block";
+            dots[slideIndex - 1].className += " w3-opacity-off";
+            captionText.innerHTML = dots[slideIndex - 1].alt;//
+        }
+    </script>
+{% endblock %}
+
+

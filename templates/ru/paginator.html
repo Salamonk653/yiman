@@ -1,0 +1,24 @@
+<hr class="w3-border-amber">
+{% if is_paginated %}
+    <div class="w3-bar w3-border w3-bar-item w3-round w3-margin-bottom">
+        <div class="w3-center">
+            {% if page_obj.has_previous %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"
+                   class="w3-button w3-left w3-hover-amber">&#10094;
+                    Предыдущий</a>
+            {% endif %}
+            {% for n in page_obj.paginator.page_range %}
+                {% if page_obj.number == n %}
+                    <a href="{{ request.path }}?page={{ n }}" class="w3-button w3-center w3-amber">{{ n }}</a>
+                {% elif n > page_obj.number|add:-3 and n < page_obj.number|add:3 %}
+                    <a href="{{ request.path }}?page={{ n }}" class="w3-button w3-center w3-hover-amber">{{ n }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}"
+                   class="w3-button w3-right w3-hover-amber">Следующий
+                    &#10095;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

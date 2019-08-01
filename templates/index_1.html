@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} "Ыйман" диний маданиятты өнүктүрүү фонду {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:400,500&amp;subset=cyrillic"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.formstyler.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css_gallery/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/w3.black.css' %}">
+
+
+</head>
+
+<body>
+
+<div class="w3-top w3-white w3-card" style="z-index: 5;">
+    <div class="w3-bar w3-left-align w3-large">
+        <a href="/" class="w3-bar-item w3-button logo">
+            <img src="{{ ofonde.logo.url }}" alt="img" style="width: 100%;height: 100%;">
+        </a>
+        <button onclick="w3_open()" class="w3-right w3-button">
+            <i  class="fa fa-bars"></i>
+        </button>
+        <div class="w3-right w3-hide-small">
+            <button class="w3-right w3-button w3-amber" style="width:50px"><i class=" fa fa-search"></i>
+            </button>
+            <div class="w3-rest">
+                <form method="get" action="{% url 'search' %}">
+                    <input id="q" class="w3-input w3-border" name="q" type="text"
+                           placeholder="Бул жерге жазыңыз...">
+                </form>
+            </div>
+
+        </div>
+        <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+            <hr class="w3-border-amber">
+            <h1 class="w3-amber karta">Сайттын картасы</h1>
+            <hr class="w3-border-amber">
+            <button class="w3-button w3-display-bottomright w3-amber" onclick="w3_close()"><i class="fa fa-remove"></i>
+            </button>
+            <a href="#news" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
+            >Жаңылыктар</a>
+            <a href="#advantages" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
+            >Кайрымдуулук</a>
+            <a href="#gallery" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
+            >Медиа галерея</a>
+            <a href="#fund" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
+            >Фонд жөнундө</a>
+            <a href="#form" class="w3-bar-item w3-button  w3-hover-amber scrolllink"
+            >Байланыш</a>
+            <button onclick="document.getElementById('id01').style.display='block'"
+                    class="w3-bar-item w3-button  w3-hover-amber w3-right">
+                <i class="fa fa-search"></i>
+            </button>
+        </nav>
+
+        {#Бул издоо формасы#}
+        <div id="id01" class="w3-modal w3-animate-opacity">
+            <div class="w3-modal-content w3-card-4">
+                <header class="w3-container w3-amber">
+        <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-large w3-display-topright">&times;</span>
+                </header>
+                <div class="w3-modal-content w3-margin">
+                    <div class="w3-row w3-section">
+                        <button class="w3-col w3-right w3-button" style="width:50px"><i class=" fa fa-search"></i>
+                        </button>
+                        <div class="w3-rest">
+                            <form method="get" action="{% url 'search' %}">
+                                <input id="q" class="w3-input w3-border" name="q" type="text"
+                                       placeholder="Бул жерге жазыңыз...">
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        {#Бул издоо формасы#}
+
+
+    </div>
+
+</div>
+
+
+
+{% autoescape off %}
+    <!-- ************************************************!SLIDER HTML!**************************************************** -->
+    <div class="w3-container glavnyi">
+        {% block content %}
+            <section class="slider" id="main" style="background-image: url('{{ fon.slider_fon.url }}');">
+                <div class="container">
+                    <div class="slider__inner" style="padding-top: 0">
+                        <div class="slider__item">
+                            <div class="slider__item-content">
+
+                                <div class="slider__title">
+                                    <img src="/media/img/kalma-text-img.png" alt="" style="width: 100%">
+                                </div>
+
+                                <div class="slider__text">
+                                    Мээримдүү, Ырайымдуу Аллахтын аты менен
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slider__item">
+                            <div class="slider__item-content">
+                                <div class="slider__title">
+                                    <img src="/media/img/parallax-text.png" style="width: 100%">
+                                </div>
+
+                                <div class="slider__text">
+                                    Эгеңердин жакшылыктарынын кайсынысын жалганга чыгара аласыңар
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="slider__item">
+                            <div class="slider__item-content">
+                                <div class="slider__title">
+                                    ТАРБИЯ
+                                </div>
+
+                                <div class="slider__text">
+                                    Жашоо тарбия менен башталат
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- **********************************************!NEWS HTML!******************************************************** -->
+
+            <section class="news" id="news">
+                <div class="container">
+                    <div class="news__top">
+                        <div class="news__title-box">
+
+                            <div class="news__title">
+                                Ыйман фондунун жаңылыктары
+                            </div>
+
+                            <div class="news__text">
+                                Бул жерден ыйман фондунун жаңылыктарын көрсөңүз болот
+                            </div>
+                        </div>
+
+                        <div class="news__btn">
+                            <a href="{% url 'category' %}">
+                                Баарын көрүү
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="w3-row-padding">
+                        {% for cat in news %}
+                            <div class="w3-quarter">
+                                <div class="w3-container w3-left-align w3-display-container w3-card-4 w3-margin"
+                                     style="height: 450px">
+                                    {% if cat.image %}
+                                        <div class="w3-display-topleft w3-amber w3-border-white w3-padding">{{ cat.created|date:'m.d' }}</div>
+                                        <img src="{{ cat.image.url }}" alt="Norway" style="width:100%">
+                                    {% endif %}
+                                    <div class="">
+                                        <p class="w3-container w3-amber w3-hover-text-blue-grey" style="height: 70px"><a
+                                                href="{{ cat.get_absolute_url }}" title="{{ cat.name }}"
+                                                class="w3-hover"><b>{{ cat.name|truncatechars:35 }}</b></a>
+                                        </p>
+                                        <p>{{ cat.text|truncatechars:150 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ******************************************!KAIRYMDUULUK HTML!**************************************************** -->
+
+            <section class="advantages w3-container" id="advantages">
+                <div class="">
+
+                    <div class="gallery__top w3-margin-top w3-text-white" >
+                        <div class="gallery__title-box" style="margin-top: 30px">
+                            <div class="gallery__title w3-text-white">
+                                КАЙРЫМДУУЛУК
+                            </div>
+
+                            <div class="gallery__text">
+                                <p>
+                                    Байлыктан көрө биримдик артык
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-card-4 w3-margin w3-white w3-topbar w3-border-amber w3-display-container w3-block">
+                        <div class="">
+                            <img class="surot" src="{{ fon.kairymduuluk.url }}" alt="Nature"
+                                 style="width:100%; ">
+                        </div>
+                        <div class="kai w3-button w3-amber w3-display-bottomright w3-card-24">
+                            <a href="{% url 'kairymduuluk' %}">
+                                <b>Жардам берүү</b>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ************************************************!PORTFOLIO HTML!********************************* -->
+
+                    <div class="portfolio__row w3-text-white">
+
+                        <div class="gallery__top">
+                            <div class="gallery__title-box">
+                                <div class="gallery__title w3-text-white">
+                                    ВОЛОНТЕРЛОР
+                                </div>
+
+                                <div class="gallery__text">
+                                    <p>
+                                        "Ыйман" фондунун волонтерлору
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w3-row-padding">
+                            {% for volonter in volonterlor %}
+                                <li class="w3-container w3-quarter">
+                                    <div class="w3-display-container w3-margin-bottom">
+                                        <img src="{{ volonter.image.url }}" alt="Avatar" width="100%">
+                                        <div class="w3-display-bottommiddle w3-display-hover w3-text-white">
+                                            {% if volonter.description %}
+                                                <p>{{ volonter.description }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        <div class="w3-container w3-margin">
+                            <div class="w3-hover-text-white w3-amber w3-right w3-padding">
+                                <b><a href="{% url 'volonterlor' %}">Баарын көрүү</a></b>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ********************************************!GALLERY HTML!****************************************************** -->
+
+            <section class="gallery" id="gallery">
+                <div class="container">
+                    <div class="gallery__top">
+                        <div class="gallery__title-box">
+                            <div class="gallery__title">
+                                МЕДИА ГАЛЕРЕЯ
+                            </div>
+
+                            <div class="gallery__text">
+                                <p>
+                                    Видео жана сүрөт, медиа жаңылыктары
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w3-row-padding">
+                        <div class="gallery__items ">
+                            {#_________________________________Видео__________________________________#}
+                            <div class="gallery__item video w3-third" style="background-image: url('{{ fon.video.url }}');
+                                    background-size: 100% 100%;">
+                            <div class="gallery__item-title">
+                                ВИДЕО
+                            </div>
+                            <div class="gallery__item-btn">
+                                <a href="{% url 'video_list' %}" class="default-btn">
+                                    Кенен маалымат
+                                </a>
+                            </div>
+                        </div>
+                        {#_________________________________Фото__________________________________#}
+
+                        <div class="gallery__item foto w3-third" style="background-image: url('{{ fon.foto.url }}');
+                                background-size: 100% 100%;">
+                        <div class="gallery__item-title">
+                            СҮРӨТТӨР
+                        </div>
+
+
+                        <div class="gallery__item-btn">
+                            <a href="{% url 'gallery_list' %}" class="default-btn">
+                                Кенен маалымат
+                            </a>
+                        </div>
+                    </div>
+                    {#_________________________________Долбоорлор__________________________________#}
+
+                    <div class="gallery__item media w3-third" style="background-image: url('{{ fon.media.url }}');
+                            background-size: 100% 100%;">
+                    <div class="gallery__item-title">
+                        ДОЛБООРЛОР
+                    </div>
+
+
+                    <div class="gallery__item-btn">
+                        <a href="{% url 'media_list' %}" class="default-btn">
+                            Кенен маалымат
+                        </a>
+                    </div>
+                </div>
+                {#_________________________________Долбоорлор__________________________________#}
+            </div>
+            </div>
+            </div>
+            </section>
+
+            <!-- **********************************************!ABOUT HTML!******************************************************* -->
+
+            <section class="about" id="fund" style="background-image: url('{{ fon.ofonde_fon.url }}');
+                            background-size: 100% 100%;">
+                <div class="container">
+                    <div class="about__inner">
+
+                        <div class="about__title">
+                            Фонд жөнундө
+                        </div>
+
+                        <div class="about__text">
+
+                            {{ ofonde.text|truncatewords:40 }}
+
+                        </div>
+
+                        <a href="{% url 'ofonde' %}" class="about__btn default-btn">
+                            Кенен маалымат
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        {% endblock %}
+    </div>
+{% endautoescape %}
+
+<!-- ******************************************!FOOTER HTML!**************************************************** -->
+
+<footer class="footer w3-container"  id="contacts">
+    <div class="footer__content">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__info">
+                    <div class="footer__title">
+                        <h2>Биздин даарегибиз</h2>
+                    </div>
+
+                    <div class="footer__text">
+                        Эгерде суроо-талаптарыңыз бар болсо төмөнкү маалыматтар боюнча кайрылсаңыз болот.
+                        Же болбосо биздин даарегибиз боюнча келип, кененирээк маалымат алып кетиңиз!
+                    </div>
+
+
+
+                    <ul class="footer__list">
+                        <li><a class="footer__phone" href="tel:+996 556 625 130">{{ ofonde.phone }}</a></li>
+                        <li><a href="#">{{ ofonde.email }}</a></li>
+                        <li><a class="footer__adress" href="#">{{ ofonde.adres }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer__map">
+                    <iframe src="{{ ofonde.karta }}" width="600" height="350" frameborder="0"
+                            style="border:0" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer__copy">
+        <div class="container">
+
+            <div class="icons">
+                <a href="{{ ofonde.facebook }}"><i class="fa fa-facebook"></i></a>
+                <a href="{{ ofonde.instagram }}"><i class="fa fa-instagram"></i></a>
+                <a href="{{ ofonde.youtubbe }}"><i class="fa fa-youtube"></i></a>
+            </div>
+
+            <div class="copy__text">
+                {{ ofonde.name }} | {{ ofonde.adres }} | {{ ofonde.email }} | {{ ofonde.phone }} (whatsapp)
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ******************************************!ID MODAL HTML!**************************************************** -->
+
+
+<!-- ***************************************************************************************************************** -->
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+<script src="{% static 'js/slick.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    // Script for side navigation
+    function w3_open() {
+        var x = document.getElementById("mySidebar");
+        x.style.width = "60%";
+        x.style.display = "block";
+    }
+
+    // Close side navigation
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
+</body>
+
+</html>

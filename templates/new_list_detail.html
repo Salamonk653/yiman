@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ article.name }}
+{% endblock %}
+{% block content %}
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/ky_KG/sdk.js#xfbml=1&version=v3.3"></script>
+
+
+    <div class="w3-row-padding w3-content" style="max-width:1400px">
+        <div class="w3-twothird">
+            <hr class="w3-border-amber">
+            <div class="w3-card-4 w3-margin w3-white">
+                {% if article.image %}
+                    <div class="w3-topbar w3-border-amber">
+                        <img id="article" data-id="{{ article.id }}" src="{{ article.image.url }}"
+                             alt="{{ article.name }}" style="width:100%">
+                    </div>
+                {% endif %}
+                <div class="w3-container">
+                    <h3><b>{{ article.name }}</b></h3>
+                    <h5>
+                        {% if article.author %}
+                            {{ article.author }}
+                        {% endif %}<span class="w3-opacity">{{ article.created }}</span></h5>
+                </div>
+
+
+                <div class="w3-container">
+                    <p>{{ article.text }}</p>
+                    {#                    <--- Like button --->#}
+                    {% if user.is_authenticated %}
+
+                        <div class="w3-right" id="like_botton">
+                            <a href="#" id="like"
+                               class="w3-button w3-hover-card-4 w3-white w3-border w3-border-amber w3-margin">
+                                <span> <i class="fa fa-thumbs-o-up"> </i>|</span>
+                                <span id="liked">{{ article.likes }}</span></a>
+                            <a href="#" id="dislike" class="w3-button w3-hover- w3-white w3-border w3-border-amber">
+                                <span><i class="fa fa-thumbs-o-down"> </i>|</span>
+                                <span id="disliked">{{ article.dislikes }}</span></a>
+                        </div>
+                        {#                    <--- Like button --->#}
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="w3-border-amber">
+            <div class="w3-container w3-margin w3-right">
+                {#                <div class="sharethis-inline-share-buttons"></div>#}
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_inline_share_toolbox"></div>
+            </div>
+
+            <div class="fb-comments w3-card-4 w3-container w3-margin"
+                 data-href="http://localhost:8021/{{ article.get_absolute_url }}" data-width="100%"></div>
+            <hr class="w3-border-amber">
+
+        </div>
+
+
+        <div class="w3-third">
+            <hr class="w3-border-amber">
+            <div class="w3-card w3-margin">
+                <div class="w3-row w3-section">
+                    <button class="w3-col w3-right w3-button" style="width:50px"><i class=" fa fa-search"></i></button>
+                    <div class="w3-rest">
+                        <form method="get" action="{% url 'search' %}">
+                            <input id="q" class="w3-input w3-border" name="q" type="text"
+                                   placeholder="Бул жерге жазыңыз...">
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+            <hr class="w3-border-amber">
+
+            <div class="w3-card w3-margin">
+                <div class="w3-container w3-padding">
+                    <h4>Акыркы жаңылыктар</h4>
+                </div>
+
+                <ul class="w3-ul w3-hoverable w3-white">
+                    {% for article in articles %}
+                        <a href="{{ article.get_absolute_url }}" style="width: 100%">
+                            <li class="w3-padding-16 w3-container">
+                                {% if article.image %}
+                                    <img src="{{ article.image.url }}" alt="{{ article.name }}"
+                                         class="w3-left w3-margin-right"
+                                         style="width:100px">
+                                {% endif %}
+                                <span class="w3-large">{{ article.name }}</span><br>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#like').on('click', function (e) {
+                e.preventDefault()
+                var like = $('#liked').text()
+                var article_id = $('#article').attr('data-id')
+                data = {
+                    article_id: article_id,
+                    like: like,
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "user_reaction" %}',
+                    dataType: 'json',
+                    data: data,
+                    success: function (dannyi) {
+                        $('#liked').html(dannyi.likes)
+                        $('#disliked').html(dannyi.dislikes)
+                    }
+                })
+            })
+            $('#dislike').on('click', function (e) {
+                e.preventDefault()
+                var dislike = $('#disliked').text()
+                var article_id = $('#article').attr('data-id')
+                data = {
+                    article_id: article_id,
+                    dislike: dislike,
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "user_reaction" %}',
+                    dataType: 'json',
+                    data: data,
+                    success: function (dannyi) {
+                        $('#liked').html(dannyi.likes)
+                        $('#disliked').html(dannyi.dislikes)
+
+                    }
+                })
+            })
+        })
+    </script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3c3f457db0da35"></script>
+
+
+{% endblock %}

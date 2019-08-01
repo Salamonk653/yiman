@@ -1,0 +1,127 @@
+/*==========  Desktop First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    .portfolio__title {
+        font-size: 10px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+    .portfolio__title {
+        font-size: 10px;
+    }
+}
+
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+    .portfolio__title-box:before{
+        width: 50px;
+
+    }
+    .portfolio__title-box{
+        padding-left: 50px;
+    }
+    .portfolio__title {
+        font-size: 15px;
+    }
+    .kai{
+        font-size: 10px;
+        width: 50%;
+    }
+    .surot{
+        height: 200px;
+    }
+    .w3-hover{
+        font-size: 13px;
+    }
+    .karta{
+        font-size: 30px;
+    }
+    .slider{
+        background-size: 100% 300px;
+        min-height: 300px;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    .portfolio__title {
+        font-size: 25px;
+    }
+    .advantages__title {
+        font-size: 25px;
+    }
+    .kai{
+        font-size: 18px;
+    }
+    .surot{
+        height: 280px;
+    }
+    .karta{
+        font-size: 40px;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    .kai{
+        font-size: 25px;
+    }
+    .surot{
+        height: 350px;
+    }
+    .karta{
+        font-size: 40px;
+    }
+    .glavnyi{
+        margin-top:45px;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    .kai{
+        font-size: 25px;
+    }
+    .karta{
+        font-size: 50px;
+    }
+    .slider{
+        background-size: 100% auto;
+        min-height: 0px
+    }
+}
+
+ /* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+    .kai{
+        font-size: 25px;
+    }
+    .karta{
+        font-size: 60px;
+    }
+    .slider{
+        background-size: 100% auto;
+        min-height: 0px
+    }
+}

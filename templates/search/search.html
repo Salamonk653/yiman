@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+Кечиресиз, сиз издеген маалымат табылган жок
+{% block content %}
+
+    <div class="w3-card-8 w3-margin">
+        <div class="w3-row w3-section">
+            <button class="w3-col w3-right w3-button w3-amber" style="width:50px"><i class=" fa fa-search"></i>
+            </button>
+            <div class="w3-rest">
+                <form method="get" action="{% url 'search' %}">
+                    <input id="q" class="w3-input w3-border" name="q" type="text"
+                           placeholder="Бул жерге жазыңыз...">
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="w3-card w3-margin">
+        <div class="w3-container w3-padding">
+            <h4>Сиз издеген макалалар</h4>
+        </div>
+
+        <ul class="w3-ul w3-hoverable w3-white">
+            {% for article in posts %}
+                {% if article.slug %}
+                    <a href="{% url 'article_detail' slug=article.slug %}" style="width: 100%">
+                {% endif %}
+            <li class="w3-padding-16 w3-container">
+                {% if article.image %}
+                    <img src="{{ article.image }}" alt="{{ article.name }}"
+                         class="w3-left w3-margin-right"
+                         style="width:100px">
+                {% endif %}
+                <span class="w3-large">{{ article.name }}</span><br>
+            </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {#    {% for item in posts %}#}
+    {##}
+    {#        <a href=""><img src="{{ item.image }}" alt="{{ item.id }}" width="150px"></a>#}
+    {#        {% if item.name %}#}
+    {##}
+    {#            <a href="{% url 'article_detail' slug=item.slug %}">{{ item.name }}</a>#}
+    {#        {% endif %}#}
+    {#        <br>#}
+    {#    {% endfor %}#}
+{% endblock %}

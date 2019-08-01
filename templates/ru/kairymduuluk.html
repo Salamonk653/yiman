@@ -1,0 +1,17 @@
+{% extends 'ru/base.html' %}
+
+{% block content %}
+    <div class="w3-row-padding w3-content" style="max-width:1400px">
+        <div class="">
+            <div class="w3-card-4 w3-margin w3-white">
+
+                <div class="w3-container">
+                    {% if article.text %}
+
+                        <p>{{ article.text }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

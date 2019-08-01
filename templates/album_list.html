@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="w3-card-4 w3-display-container w3-text-black w3-center w3-mobile" style="height: 100px">
+        <h2 class="w3-display-middle"><b>"ЫЙМАН" ФОНДУНУН МЕДИЯ ГАЛАРЕЯСЫ</b></h2>
+    </div>
+    <hr class="w3-border-amber">
+    <div class="w3-container">
+        <div class="w3-row-padding" style="background-color: #dddddd">
+            {% for album in albums %}
+                <div class="w3-quarter w3-margin-top">
+                    <div class="w3-container w3-card-4 w3-white w3-left-align w3-margin-bottom "
+                         style="height: 260px; padding: 8px;">
+                        <div class="">
+                            <img src="{{ album.oblojka.url }}" alt="Volonter" style="width: 100%">
+                        </div>
+                        <div class="">
+                            {% if album.name %}
+                                <b><a href="{{ album.get_absolute_url }}"
+                                      class="w3-hover-text-amber">{{ album.name }}</a></b>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'paginator.html' %}
+    </div>
+{% endblock %}

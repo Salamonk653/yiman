@@ -1,0 +1,51 @@
+{% extends 'ru/gallery/base_for_gallery.html' %}
+{% load staticfiles %}
+{% block head %}
+
+    <link rel="stylesheet" href="{% static 'css_gallery/jquery.galereya.css' %}">
+    <link rel="stylesheet" href="{% static 'css_gallery/jquery.galereya.ie.css' %}">
+    <link rel="stylesheet" href="{% static 'css_gallery/galereya.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="w3-card-4 w3-display-container w3-text-black w3-center w3-mobile" style="height: 100px; display:block;">
+        <h2 class="w3-display-middle"><b>{{ album.ru_name|upper }}</b></h2>
+    </div>
+        {% include 'paginator.html' %}
+
+    <div class="w3-container">
+        <div id="gal1">
+            {% for album in page_obj %}
+
+
+                <img src="{{ album.image.url }}" data-desc="{% if album.ru_description %}
+                            <p>{{ album.ru_description }}</p>
+                        {% endif %}" data-fullsrc="{{ album.image.url }}" alt="">
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="{% static 'js_gallery/jquery.galereya.min.js' %}"></script>
+    <script>
+        $('#gal1').galereya({
+            wave: false,
+            modifier: 'ex1',
+            spacing: 5,
+        });
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

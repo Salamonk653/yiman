@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="">
+        <div class="w3-container w3-amber w3-hover-text-white">
+            <h2 class="w3-padding-left">Волонтеры</h2>
+        </div>
+        <div class="w3-row-padding w3-container" style="background-color: #dddddd">
+            {% for volonter in volonterlor %}
+                <div class="w3-quarter w3-margin-top">
+                    <div class="w3-container w3-white w3-left-align w3-margin-bottom "
+                         style="height: 300px; padding: 8px;">
+                        <div class="">
+                            <img src="{{ volonter.image.url }}" alt="Volonter" style="width: 100%">
+                        </div>
+                        <div class="">
+                            {% if volonter.ru_description %}
+                                {{ volonter.ru_description }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% include 'paginator.html' %}
+        </div>
+    </div>
+{% endblock %}
