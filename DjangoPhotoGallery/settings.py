@@ -36,53 +36,33 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_elasticsearch_dsl',
+    'social_django',
+    # 'django_elasticsearch_dsl',
     'ckeditor',
     'ckeditor_uploader',
     'news',
     'photo',
     'django_cleanup',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
 
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'SCOPE': ['email'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': False
-    },
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'offline',
-        }
-    }
-}
+LOGIN_REDIRECT_URL = "news_list"
+LOGOUT_URL = "logout"
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_URL = "/accounts/login/"
+LOGIN_URL = 'news_list'
+LOGOUT_REDIRECT_URL = 'news_list'
 
-SOCIALACCOUNT_QUERY_EMAIL = True
 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -92,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoPhotoGallery.urls'
@@ -108,10 +89,40 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # add this
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
+SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+SOCIAL_AUTH_FACEBOOK_KEY = '443754342878347'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c38e8d80c15e768090c81bb80441195c'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] # add this
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
+  'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+
 
 WSGI_APPLICATION = 'DjangoPhotoGallery.wsgi.application'
 
@@ -121,7 +132,7 @@ WSGI_APPLICATION = 'DjangoPhotoGallery.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'test.sqlite3'),
     }
 }
 

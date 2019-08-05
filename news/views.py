@@ -10,13 +10,20 @@ class News(ListView):
     model = New
     template_name = 'index_1.html'
 
+
     def get_context_data(self, *args, **kwargs):
         context = super(News, self).get_context_data(**kwargs)
         context['article'] = New.objects.filter(language__name__icontains='kg').first()
         context['volonterlor'] = Image.objects.filter(album__name__icontains='Волонтерлор', is_public=True).order_by('-id')[:8]
         context['news'] = New.objects.filter(category__name__iexact='Жаңылыктар', language__name__icontains='kg', is_public=True).order_by('-id')[:4]
-        context['ofonde'] = OFonde.objects.filter(language__name__icontains='kg').first()
+        context['ofonde'] = Fondjonundo.objects.filter(language__name__icontains='kg')
+        index = []
+        for i in range(1, context['news'].count()+1):
+            index.append(i)
+        context['index'] = index
+        context['slider'] = Slider.objects.filter(language__name__icontains='kg')
         context['fon'] = Fon.objects.first()
+        context['kairymduuluk'] = Kairymduuluk.objects.filter(language__name__icontains='kg')[:1]
         return context
 
 
@@ -38,7 +45,7 @@ class ArticleDetail(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArticleDetail, self).get_context_data(**kwargs)
-        context['articles'] = self.model.objects.filter(language__name__icontains='kg', is_public=True).order_by('-id')[:10]
+        context['articles'] = self.model.objects.filter(language__name__icontains='kg', is_public=True).order_by('-id')[:15]
         context['article'] = self.get_object()
         context['ofonde'] = OFonde.objects.filter(language__name__icontains='kg').first()
         return context
@@ -90,7 +97,8 @@ def search(request):
     q = request.GET.get('q')
 
     if q:
-        context['posts'] = PostDocument.search().query("match", name=q)
+        # context['posts'] = PostDocument.search().query("match", name=q)
+        context['posts'] = New.objects.filter(name__icontains=q)
     else:
         context['posts'] = ''
 

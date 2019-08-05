@@ -30,6 +30,10 @@
         <a href="/ru/" class="w3-bar-item w3-button logo">
             <img src="{{ ofonde.logo.url }}" alt="img" style="width: 100%;height: 100%;">
         </a>
+        <a href="/" class="w3-bar-item w3-button w3-hover-amber">
+            KG
+        </a>
+
         <button onclick="w3_open()" class="w3-right w3-button">
             <i class="fa fa-bars"></i>
         </button>
@@ -49,19 +53,44 @@
             <h1 class="w3-amber karta">Карта сайта</h1>
             <hr class="w3-border-amber">
             <div class="w3-margin">
-                {% load socialaccount %}
-                <div>Зайдите через соц.акаунт</div>
-                <a href="{% provider_login_url "facebook" method="oauth2" %}" class="w3-button w3-amber">Facebook</a>
-                <a href="{% provider_login_url "google" method="oauth2" %}" class="w3-button w3-amber">Google</a>
+                {% if user.is_authenticated %}
+                    <div class="w3-card w3-margin">
+
+
+                        {% for ass in backends.associated %}
+                            {% if ass.provider == 'facebook' %}
+                                <ul class="w3-ul w3-amber">
+                                    <li class="">
+                                        <img src="{{ ass.extra_data.picture.data.url }}" alt="" width="50"
+                                             height="50" class="w3-left w3-margin-left w3-card-8 "
+                                             style="border-radius: 50%">
+                                        <span class="w3-large w3-center">{{ ass.extra_data.name }}</span>
+                                        <span class="w3-right w3-margin-right w3-button w3-white w3-card-8 w3-round-large">
+                                            <a href="{% url 'logout' %}">Выход</a>
+                                        </span>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                {% else %}
+                    <label class="w3-text-amber"><b>Зайдите через соц.акаунт</b></label>
+                    <div class="w3-margin">
+                        <a href="{% url 'social:begin' 'facebook' %}" class="w3-button w3-card-8 w3-blue">Facebook</a>
+                    </div>
+                {% endif %}
             </div>
-            <button class="w3-button w3-display-bottomright w3-amber" onclick="w3_close()"><i class="fa fa-remove"></i>
+
+            <button class="w3-button w3-display-bottomright w3-amber" onclick="w3_close()"><i
+                    class="fa fa-remove"></i>
             </button>
             <a href="#news" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
             >Новости</a>
             <a href="#advantages" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
             >Сострадание</a>
             <a href="#gallery" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
-            >Медиа галерея</a>
+            >Проекты</a>
             <a href="#fund" class="w3-bar-item w3-button   w3-hover-amber scrolllink"
             >О Фонде</a>
             <a href="#form" class="w3-bar-item w3-button  w3-hover-amber scrolllink"
@@ -109,55 +138,24 @@
     <!-- ************************************************!SLIDER HTML!**************************************************** -->
     <div class="w3-container glavnyi">
         {% block content %}
-            <section class="slider" id="main" style="background-image: url('{{ fon.slider_fon.url }}');">
-                <div class="container">
-                    <div class="slider__inner" style="padding-top: 0">
-                        <div class="slider__item">
-                            <div class="slider__item-content">
+            <style>
+                .mySlides {
+                    display: none;
+                }
+            </style>
+            <div class=" w3-section">
+                {% for image in slider %}
 
-                                <div class="slider__title">
-                                    <img src="/media/img/kalma-text-img.png" alt="" style="width: 100%">
-                                </div>
 
-                                <div class="slider__text">
-                                    Во имя Аллаха, Милостивого, Милосерднего
-                                </div>
-                            </div>
-                        </div>
+                    <img class="mySlides" src="{{ image.fon.url }}"
+                         style="width:100%;max-height: 500px; padding: 0; margin: 0;">
+                {% endfor %}
 
-                        <div class="slider__item">
-                            <div class="slider__item-content">
-                                <div class="slider__title">
-                                    <img src="/media/img/parallax-text.png" style="width: 100%">
-                                </div>
-
-                                <div class="slider__text">
-                                    Какие благословения вашего Господа вы можете отрицать
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="slider__item">
-                            <div class="slider__item-content">
-                                <div class="slider__title">
-                                    ДИСЦИПЛИНА
-                                </div>
-
-                                <div class="slider__text">
-                                    Жизнь начинается с дисциплины
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+            </div>
 
             <!-- **********************************************!NEWS HTML!******************************************************** -->
 
-            <section class="news" id="news">
+            <section class="" id="news" style=" background-color: #f9f9f9; margin-top: 50px; margin-bottom: 5%">
                 <div class="container">
                     <div class="news__top">
                         <div class="news__title-box">
@@ -177,27 +175,137 @@
                             </a>
                         </div>
                     </div>
+                    <div class="novosti_slider">
+                        <style>
+                            * {
+                                box-sizing: border-box
+                            }
 
-                    <div class="w3-row-padding">
-                        {% for cat in news %}
-                            <div class="w3-quarter">
-                                <div class="w3-container w3-left-align w3-display-container w3-card-4 w3-margin"
-                                     style="height: 450px">
-                                    {% if cat.image %}
-                                        <div class="w3-display-topleft w3-amber w3-border-white w3-padding">{{ cat.created|date:'m.d' }}</div>
-                                        <img src="{{ cat.image.url }}" alt="Norway" style="width:100%">
-                                    {% endif %}
-                                    <div class="">
-                                        <p class="w3-container w3-amber w3-hover-text-blue-grey" style="height: 70px"><a
-                                                href="/ru{{ cat.get_absolute_url }}" title="{{ cat.name }}"
-                                                class="w3-hover"><b>{{ cat.name|truncatechars:35 }}</b></a>
-                                        </p>
-                                        <p>{{ cat.text|truncatechars:150 }}</p>
+                            body {
+                                font-family: Verdana, sans-serif;
+                                margin: 0
+                            }
+
+                            .newSlides {
+                                display: none
+                            }
+
+                            img {
+                                vertical-align: middle;
+                            }
+
+                            /* Slideshow container */
+                            .slideshow-container {
+                            {#max-width: 1000px;#} position: relative;
+                                margin: auto;
+                            }
+
+                            /* Next & previous buttons */
+                            .prev, .next {
+                                cursor: pointer;
+                                position: absolute;
+                                top: 50%;
+                                width: auto;
+                                padding: 16px;
+                                margin-top: -22px;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 18px;
+                                transition: 0.6s ease;
+                                border-radius: 0 3px 3px 0;
+                                user-select: none;
+                            }
+
+                            /* Position the "next button" to the right */
+                            .next {
+                                right: 0;
+                                border-radius: 3px 0 0 3px;
+                            }
+
+                            /* On hover, add a black background color with a little bit see-through */
+                            .prev:hover, .next:hover {
+                                background-color: rgba(0, 0, 0, 0.8);
+                            }
+
+
+                            /* Number text (1/3 etc) */
+                            .numbertext {
+                                color: #f2f2f2;
+                                font-size: 12px;
+                                padding: 8px 12px;
+                                position: absolute;
+                                top: 0;
+                            }
+
+                            /* The dots/bullets/indicators */
+                            .dot {
+                                cursor: pointer;
+                                height: 5px;
+                                width: 20px;
+                                margin: 0 2px;
+                                background-color: #e0a800;
+                                display: inline-block;
+                                transition: background-color 0.6s ease;
+                            }
+
+                            .fade {
+                                -webkit-animation-name: fade;
+                                -webkit-animation-duration: 1.5s;
+                                animation-name: fade;
+                                animation-duration: 1.5s;
+                            }
+
+                            @-webkit-keyframes fade {
+                                from {
+                                    opacity: .4
+                                }
+                                to {
+                                    opacity: 1
+                                }
+                            }
+
+                            @keyframes fade {
+                                from {
+                                    opacity: .4
+                                }
+                                to {
+                                    opacity: 1
+                                }
+                            }
+
+                            /* On smaller screens, decrease text size */
+                            @media only screen and (max-width: 300px) {
+                                .prev, .next, .text {
+                                    font-size: 11px
+                                }
+                            }
+                        </style>
+                        <div class="slideshow-container">
+                            {% for new in news %}
+
+
+                                <div class="newSlides fade w3-display-container">
+                                    <div class="numbertext"></div>
+                                    <img src="{{ new.image.url }}" style="width:100%; max-height: 500px;">
+                                    <div class="w3-container w3-amber w3-text-black w3-large w3-center w3-padding-12"
+                                         title="{{ new.name }}">
+                                        <a class="w3-hover-text-white"
+                                           href="{{ new.get_absolute_url }}">{{ new.name }}</a>
+                                    </div>
+                                    <div style="text-align:center;" class="w3-display-topleft w3-margin-left">
+                                        {% for new in index %}
+                                            <span class="dot" onclick="currentSlide({{ new }})"></span>
+                                        {% endfor %}
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                        </div>
+
+
                     </div>
+
                 </div>
             </section>
 
@@ -219,17 +327,77 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w3-card-4 w3-margin w3-white w3-topbar w3-border-amber w3-display-container w3-block">
+                    <div class="w3-row-padding">
                         <div class="">
-                            <img class="surot" src="{{ fon.kairymduuluk.url }}" alt="Nature"
-                                 style="width:100%; ">
-                        </div>
-                        <div class="kai w3-button w3-amber w3-display-bottomright w3-card-24">
-                            <a href="{% url 'ru_kairymduuluk' %}">
-                                <b>Помочь</b>
-                            </a>
+                            <style>
+                                .advantages-list__icon {
+                                    padding-left: 33%;
+                                }
+
+                                .advantages__text {
+                                    color: white;
+                                }
+
+                                .advantages__img:hover {
+                                    background-color: #ffffff;
+                                    border-radius: 50%;
+                                }
+
+                                strong {
+                                    color: #fff;
+                                    font-size: 25px;
+                                    font-weight: bold;
+                                    font-family: Helvetica;
+                                    text-shadow: 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
+                                }
+
+                            </style>
+                            {% for obj in kairymduuluk %}
+
+
+                                <div class="w3-quarter">
+                                    <a class="advantages-list__icon" href="{% url 'kairymduuluk' %}"><img
+                                            class="advantages__img"
+                                            src="/media/img/icon_bilim.png"
+                                            alt="icon_bilim"></a>
+                                    <p class="advantages__text"><span><strong>На образование</strong></span> помощь</p>
+                                    <p class="advantages__text">Кол: {{ obj.bilim_aluu }}</p>
+                                </div>
+
+                                <div class="w3-quarter">
+                                    <a class="advantages-list__icon" href="{% url 'kairymduuluk' %}"><img
+                                            class="advantages__img"
+                                            src="/media/img/icon_kurban.png"
+                                            alt="icon_kurban"></a>
+                                    <p class="advantages__text"><span><strong>Жертвоприношение</strong></span> помощь
+                                    </p>
+                                    <p class="advantages__text">Кол: {{ obj.kurbandyk }}</p>
+                                </div>
+
+
+                                <div class="w3-quarter">
+                                    <a class="advantages-list__icon" href="{% url 'kairymduuluk' %}">
+                                        <img class="advantages__img"
+                                             src="/media/img/icon_insaniy.png"
+                                             alt="icon_insaniy"></a>
+                                    <p class="advantages__text">
+                                        <span><strong>Нуждающимися</strong></span> помощь</p>
+                                    <p class="advantages__text">Кол: {{ obj.muktaj }}</p>
+                                </div>
+
+                                <div class="w3-quarter">
+                                    <a class="advantages-list__icon" href="{% url 'kairymduuluk' %}"><img
+                                            class="advantages__img"
+                                            src="/media/img/icon_suu.png"
+                                            alt="icon_suu"></a>
+                                    <p class="advantages__text"><span><strong>На воду</strong></span> помощь</p>
+                                    <p class="advantages__text">Кол: {{ obj.suu_chygaruu }}</p>
+                                </div>
+                            {% endfor %}
+
                         </div>
                     </div>
+
 
                     <!-- ************************************************!PORTFOLIO HTML!********************************* -->
 
@@ -251,9 +419,9 @@
 
                         <div class="w3-row-padding">
                             {% for volonter in volonterlor %}
-                                <li class="w3-container w3-quarter">
-                                    <div class="w3-display-container w3-margin-bottom">
-                                        <img src="{{ volonter.image.url }}" alt="Avatar" width="100%">
+                                <li class="w3-container w3-quarter" >
+                                    <div class="w3-display-container w3-margin-bottom" style="">
+                                        <img src="{{ volonter.image.url }}" alt="Avatar" style="max-height: 220px;width: 100%;">
                                         <div class="w3-display-bottommiddle w3-display-hover w3-text-white">
                                             {% if volonter.description %}
                                                 <p>{{ volonter.description }}</p>
@@ -308,20 +476,6 @@
                             </div>
                             {#_________________________________Фото__________________________________#}
 
-                            <div class="gallery__item foto w3-third" style="background-image: url('{{ fon.foto.url }}');
-                                    background-size: 100% 100%;">
-                                <div class="gallery__item-title">
-                                    ФОТО
-                                </div>
-
-
-                                <div class="gallery__item-btn">
-                                    <a href="{% url 'ru_gallery_list' %}" class="default-btn">
-                                        Смотреть
-                                    </a>
-                                </div>
-                            </div>
-                            {#_________________________________Долбоорлор__________________________________#}
 
                             <div class="gallery__item media w3-third"
                                  style="background-image: url('{{ fon.media.url }}');
@@ -338,6 +492,21 @@
                                 </div>
                             </div>
                             {#_________________________________Долбоорлор__________________________________#}
+                            <div class="gallery__item foto w3-third" style="background-image: url('{{ fon.foto.url }}');
+                                    background-size: 100% 100%;">
+                                <div class="gallery__item-title">
+                                    ФОТО
+                                </div>
+
+
+                                <div class="gallery__item-btn">
+                                    <a href="{% url 'ru_gallery_list' %}" class="default-btn">
+                                        Смотреть
+                                    </a>
+                                </div>
+                            </div>
+
+                            {#_________________________________Долбоорлор__________________________________#}
                         </div>
                     </div>
                 </div>
@@ -345,27 +514,52 @@
 
             <!-- **********************************************!ABOUT HTML!******************************************************* -->
 
-            <section class="about" id="fund" style="background-image: url('{{ fon.ofonde_fon.url }}');
-                    background-size: 100% 100%;">
-                <div class="container">
-                    <div class="about__inner">
+<section class="about" id="fund" style="background-image: url('{{ fon.ofonde_fon.url }}');
+                    background-size: 100% 100%; padding: 80px 0px 80px;">
+                <div class="w3-container w3-xlarge w3-center w3-amber w3-margin-bottom ">О фонде</div>
+                <div class="container w3-text-white">
+                    <div class="w3-bar-block" style="width: 30%; height: 100%; position: absolute;">
+                        {% for obj in ofonde %}
 
-                        <div class="about__title">
-                            О Фоде
-                        </div>
+                            <button class="w3-bar-item w3-button tablinks w3-hover-amber" onclick="openCity(event, '{{ obj.name }}')"
+                                    id="defaultOpen">
+                                {{ obj.name }}
+                            </button>
+                        {% endfor %}
 
-                        <div class="about__text">
-
-                            {{ ofonde.text|truncatewords:40 }}
-
-                        </div>
-
-                        <a href="{% url 'ru_ofonde' %}" class="about__btn default-btn">
-                            Смотреть все
-                        </a>
                     </div>
+
+                    {% for obj in ofonde %}
+
+                        <div id="{{ obj.name }}" class="w3-container tabcontent" style="margin-left:35%">
+                            <h3>{{ obj.name }}</h3>
+                            <p>{{ obj.text }}</p>
+                        </div>
+
+                    {% endfor %}
+                    <script>
+                        function openCity(evt, cityName) {
+                            var i, tabcontent, tablinks;
+                            tabcontent = document.getElementsByClassName("tabcontent");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
+                            }
+                            tablinks = document.getElementsByClassName("tablinks");
+                            for (i = 0; i < tablinks.length; i++) {
+                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                            }
+                            document.getElementById(cityName).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+
+                        // Get the element with id="defaultOpen" and click on it
+                        document.getElementById("defaultOpen").click();
+                    </script>
                 </div>
+                <div class="w3-amber w3-container w3-text-amber">.</div>
             </section>
+
+
 
         {% endblock %}
     </div>
@@ -432,9 +626,6 @@
 <script src="{% static 'js/script.js' %}"></script>
 <script>
 
-    $(document).ready(function () {
-        alert('salam')
-    })
 
     // Script for side navigation
     function w3_open() {

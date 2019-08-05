@@ -13,7 +13,7 @@
                     <div class="w3-container w3-card-4 w3-white w3-left-align w3-margin-bottom "
                          style="height: 260px; padding: 8px;">
                         <div class="" >
-                            <img width="100%" src="{{ album.oblojka.url }}" alt="{{ album.ru_name }}" style="height: 60%" onclick="onClick(this)"/>
+                            <img width="100%" src="{{ album.oblojka.url }}" alt="{{ album.video_url }}" style="height: 60%" onclick="onClick(this)"/>
                         </div>
                         <div class="" >
                             {% if album.ru_name %}
@@ -25,7 +25,7 @@
             {% endfor %}
             <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
                 <span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
-                <div class="w3-modal-content w3-animate-zoom w3-container w3-black" style="height: max-content">
+                <div class="w3-modal-content w3-animate-zoom w3-container w3-black" style="height: 100%">
                     <iframe width="100%" height="90%" id="img01" frameborder="0"
                             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>

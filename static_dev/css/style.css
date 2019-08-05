@@ -260,7 +260,7 @@ header {
 /* ******************************************!NEWS CSS!**************************************************** */
 
 .news {
-    padding: 190px 0px 100px;
+
     background-color: #f9f9f9;
 }
 
@@ -482,16 +482,14 @@ header {
 
 .advantages__text {
     color: #CCA886;
-    font-weight: 700;
     font-size: 15px;
     line-height: 15px;
     text-align: center;
-    letter-spacing: 0.1px;
     font-family: 'Roboto', sans-serif;
 }
 
 .advantages__img:hover {
-    background-color: #008ed6;
+    background-color: #ffffff;
     border-radius: 50%;
 }
 

@@ -16,7 +16,7 @@
                         </div>
                         <div class="">
                             {% if album.ru_name %}
-                                <b><a href="{{ album.get_absolute_url }}"
+                                <b><a href="{% url 'ru_album_detail' slug=album.slug %}"
                                       class="w3-hover-text-amber">{{ album.ru_name }}</a></b>
                             {% endif %}
                         </div>

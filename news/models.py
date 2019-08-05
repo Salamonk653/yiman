@@ -4,8 +4,6 @@ from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.urls import reverse
 from django.utils import timezone
-
-# Create your models here.
 from django.utils.safestring import mark_safe
 
 
@@ -20,18 +18,6 @@ class Language(models.Model):
 
     def __str__(self):
         return self.name
-
-    @classmethod
-    def create(cls, name):
-        kg = cls(name=name)
-        return kg
-
-
-if Language.objects.count() == 0:
-    kg = Language.create('kg')
-    ru = Language.create('ru')
-    kg.save()
-    ru.save()
 
 
 class Category(models.Model):
@@ -49,16 +35,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-    @classmethod
-    def create(cls, name, slug):
-        kg = cls(name=name, slug=slug)
-        return kg
-
-
-if Category.objects.count() == 0:
-    new = Category.create('Жаңылыктар', 'janylyktar')
-    new.save()
 
 
 class New(models.Model):
@@ -102,6 +78,10 @@ class Kairymduuluk(models.Model):
         ordering = ['-id']
 
     language = models.ForeignKey(Language, verbose_name=u'Тили', on_delete=models.CASCADE)
+    bilim_aluu = models.IntegerField(verbose_name=u'Билим алууга', default=0)
+    kurbandyk = models.IntegerField(verbose_name=u'Лурбандыкка', default=0)
+    muktaj = models.IntegerField(verbose_name=u'Муктаждарга', default=0)
+    suu_chygaruu = models.IntegerField(verbose_name=u'Суу чыгарууга', default=0)
     text = RichTextUploadingField(verbose_name=u'Маалымат')
 
     def __str__(self):
@@ -114,12 +94,11 @@ class Fon(models.Model):
         verbose_name = u'Фон'
         ordering = ['-id']
 
-    slider_fon = models.ImageField(verbose_name=u'Слайдер', upload_to='slider/')
+    logo = models.ImageField(verbose_name=u'Лого', upload_to='ofonde/')
     ofonde_fon = models.ImageField(verbose_name=u'фонд', upload_to='slider/')
     video = models.ImageField(verbose_name=u'Видео', upload_to='ofonde/')
     foto = models.ImageField(verbose_name=u'Фотогаларея', upload_to='ofonde/')
     media = models.ImageField(verbose_name=u'Медиа', upload_to='ofonde/')
-    kairymduuluk = models.ImageField(verbose_name=u'Кайрымдуулук', upload_to='ofonde/')
 
     def __str__(self):
         return str(self.id)
@@ -131,8 +110,6 @@ class OFonde(models.Model):
         verbose_name = u'Фонд жөнүндө'
         ordering = ['-id']
 
-    logo = models.ImageField(verbose_name=u'Лого', upload_to='ofonde/')
-
     name = models.CharField(verbose_name=u'Аты', max_length=250)
     phone = models.CharField(verbose_name=u'Телефон', max_length=150, db_index=True)
     email = models.EmailField(verbose_name=u'Емейл')
@@ -142,7 +119,37 @@ class OFonde(models.Model):
     instagram = models.CharField(verbose_name=u'Инстаграм', max_length=250, blank=True, null=True)
     youtube = models.CharField(verbose_name=u'Ютуб', max_length=250, blank=True, null=True)
     language = models.ForeignKey(Language, verbose_name=u'Тили', on_delete=models.CASCADE)
-    text = RichTextUploadingField(verbose_name=u'Маалымат')
 
     def __str__(self):
         return str(self.id)
+
+
+class Slider(models.Model):
+    class Meta:
+        db_table = u'Слайдер'
+        verbose_name_plural = u'Слайдеры'
+        verbose_name = u'Слайдер'
+        ordering = ['-id']
+
+    language = models.ForeignKey(Language, verbose_name=u'Тили', on_delete=models.CASCADE)
+    fon = models.ImageField(verbose_name=u'Слайдердин сүрөтү', upload_to='slider/')
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="150" height="150" />' % (self.fon.url))
+
+    image_tag.short_description = 'Сүрөт'
+
+
+class Fondjonundo(models.Model):
+    class Meta:
+        db_table = u'Фонд'
+        verbose_name_plural = u'Фонддун ачыктамасы'
+        verbose_name = u'Фонддун ачыктамасы'
+        ordering = ['-id']
+
+    language = models.ForeignKey(Language, verbose_name=u'Тили', on_delete=models.CASCADE)
+    name = models.CharField(verbose_name=u'Аты', max_length=100)
+    text = RichTextUploadingField(verbose_name=u'Багыттар', blank=True, null=True)
+
+    def __str__(self):
+        return self.name

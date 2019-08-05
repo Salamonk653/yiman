@@ -12,12 +12,15 @@
                 <div class="w3-quarter w3-margin-top">
                     <div class="w3-container w3-card-4 w3-white w3-left-align w3-margin-bottom "
                          style="height: 260px; padding: 8px;">
-                        <div class="" >
-                            <img width="100%" src="{{ album.oblojka.url }}" alt="{{ album.name }}" style="height: 60%" onclick="onClick(this)"/>
+                        <div class="">
+                            <img width="100%" src="{{ album.oblojka.url }}" alt="{{ album.video_url }}"
+                                 style="height: 60%" onclick="onClick(this)"/>
                         </div>
-                        <div class="" >
+                        <div class="">
                             {% if album.name %}
-                                <b>{{ album.name }}</b>
+                                <p class="w3-container w3-amber w3-hover-text-blue-grey" style="height: 60px">
+                                    <b style="margin-top: 5px">{{ album.name|truncatechars:35 }}</b>
+                                </p>
                             {% endif %}
                         </div>
                     </div>
@@ -25,7 +28,7 @@
             {% endfor %}
             <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
                 <span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
-                <div class="w3-modal-content w3-animate-zoom w3-container w3-black" style="height: max-content">
+                <div class="w3-modal-content w3-animate-zoom w3-container w3-black" style="height: 100%">
                     <iframe width="100%" height="90%" id="img01" frameborder="0"
                             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>

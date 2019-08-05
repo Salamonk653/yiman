@@ -17,8 +17,14 @@ class News(ListView):
                                                        is_public=True).order_by('-id')[:8]
         context['news'] = New.objects.filter(category__name__iexact='Жаңылыктар', language__name__icontains='ru',
                                              is_public=True).order_by('-id')[:4]
-        context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+        context['ofonde'] = Fondjonundo.objects.filter(language__name__icontains='ru')
+        index = []
+        for i in range(1, context['news'].count() + 1):
+            index.append(i)
+        context['index'] = index
+        context['slider'] = Slider.objects.filter(language__name__icontains='ru')
         context['fon'] = Fon.objects.first()
+        context['kairymduuluk'] = Kairymduuluk.objects.filter(language__name__icontains='ru')[:1]
         return context
 
 
@@ -40,7 +46,7 @@ class ArticleDetail(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArticleDetail, self).get_context_data(**kwargs)
-        context['articles'] = self.model.objects.filter(language__name__icontains='ru', is_public=True).order_by('-id')[:10]
+        context['articles'] = self.model.objects.filter(language__name__icontains='ru', is_public=True).order_by('-id')[:15]
         context['article'] = self.get_object()
         context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
         return context
@@ -92,7 +98,8 @@ def search(request):
     q = request.GET.get('q')
 
     if q:
-        context['posts'] = PostDocument.search().query("match", name=q)
+        # context['posts'] = PostDocument.search().query("match", name=q)
+        context['posts'] = New.objects.filter(name__icontains=q)
     else:
         context['posts'] = ''
 
