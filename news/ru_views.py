@@ -17,7 +17,8 @@ class News(ListView):
                                                        is_public=True).order_by('-id')[:8]
         context['news'] = New.objects.filter(category__name__iexact='Жаңылыктар', language__name__icontains='ru',
                                              is_public=True).order_by('-id')[:4]
-        context['ofonde'] = Fondjonundo.objects.filter(language__name__icontains='ru')
+        context['fond'] = Fondjonundo.objects.filter(language__name__icontains='ru')
+        context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
         index = []
         for i in range(1, context['news'].count() + 1):
             index.append(i)
@@ -36,6 +37,7 @@ class NewsList(ListView):
         context = super(NewsList, self).get_context_data(**kwargs)
         context['category'] = New.objects.filter(category__name='Жаңылыктар', language__name__icontains='ru').order_by('-id')
         context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+        context['fon'] = Fon.objects.first()
         return context
 
 
@@ -49,6 +51,7 @@ class ArticleDetail(DetailView):
         context['articles'] = self.model.objects.filter(language__name__icontains='ru', is_public=True).order_by('-id')[:15]
         context['article'] = self.get_object()
         context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+        context['fon'] = Fon.objects.first()
         return context
 
 
@@ -56,13 +59,15 @@ def kairymduuluk(request):
     context = {}
     context['article'] = Kairymduuluk.objects.filter(language__name__icontains='ru').first()
     context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+    context['fon'] = Fon.objects.first()
     return render(request, 'ru/kairymduuluk.html', context)
 
 
 def Ofonde(request):
     context = {}
     context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
-    context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+    context['fond'] = Fondjonundo.objects.filter(language__name__icontains='ru')
+    context['fon'] = Fon.objects.first()
     return render(request, 'ru/ofonde.html', context)
 
 
@@ -104,4 +109,5 @@ def search(request):
         context['posts'] = ''
 
     context['ofonde'] = OFonde.objects.filter(language__name__icontains='ru').first()
+    context['fon'] = Fon.objects.first()
     return render(request, 'search/search.html', context)

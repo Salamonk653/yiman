@@ -1,10 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="w3-container w3-amber w3-hover-text-white">
-        <h2 class="w3-padding-left">Фонд жөнүндө</h2>
+        <h2 class="w3-center">Фонд жөнүндө</h2>
     </div>
-    <div class="w3-container w3-card-8">
+    <div class="w3-container w3-card-8 w3-margin-bottom">
 
-        {{ ofonde.text }}
+        <div class="container w3-text-black w3-margin">
+                    <div class="w3-bar-block" style="width: 30%; height: 100%; position: absolute;">
+                        {% for obj in fond %}
+
+                            <button class="w3-bar-item w3-button tablinks w3-hover-amber"
+                                    onclick="openCity(event, '{{ obj.name }}')"
+                                    id="defaultOpen">
+                                {{ obj.name }}
+                            </button>
+                        {% endfor %}
+
+                    </div>
+
+                    {% for obj in fond %}
+
+                        <div id="{{ obj.name }}" class="w3-container tabcontent" style="margin-left:35%">
+                            <h3>{{ obj.name }}</h3>
+                            <p>{{ obj.text }}</p>
+                        </div>
+
+                    {% endfor %}
+                    <script>
+                        function openCity(evt, cityName) {
+                            var i, tabcontent, tablinks;
+                            tabcontent = document.getElementsByClassName("tabcontent");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
+                            }
+                            tablinks = document.getElementsByClassName("tablinks");
+                            for (i = 0; i < tablinks.length; i++) {
+                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                            }
+                            document.getElementById(cityName).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+
+                        // Get the element with id="defaultOpen" and click on it
+                        document.getElementById("defaultOpen").click();
+                    </script>
+                </div>
     </div>
 {% endblock %}

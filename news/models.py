@@ -39,8 +39,8 @@ class Category(models.Model):
 
 class New(models.Model):
     class Meta:
-        verbose_name_plural = u'Макалалар'
-        verbose_name = u'Макала'
+        verbose_name_plural = u'Жаңылыктар'
+        verbose_name = u'Жаңылык'
         ordering = ['-id']
 
     category = models.ForeignKey(Category, verbose_name=u'Категория',
@@ -79,7 +79,7 @@ class Kairymduuluk(models.Model):
 
     language = models.ForeignKey(Language, verbose_name=u'Тили', on_delete=models.CASCADE)
     bilim_aluu = models.IntegerField(verbose_name=u'Билим алууга', default=0)
-    kurbandyk = models.IntegerField(verbose_name=u'Лурбандыкка', default=0)
+    kurbandyk = models.IntegerField(verbose_name=u'Курбандыкка', default=0)
     muktaj = models.IntegerField(verbose_name=u'Муктаждарга', default=0)
     suu_chygaruu = models.IntegerField(verbose_name=u'Суу чыгарууга', default=0)
     text = RichTextUploadingField(verbose_name=u'Маалымат')
@@ -113,7 +113,7 @@ class OFonde(models.Model):
     name = models.CharField(verbose_name=u'Аты', max_length=250)
     phone = models.CharField(verbose_name=u'Телефон', max_length=150, db_index=True)
     email = models.EmailField(verbose_name=u'Емейл')
-    adres = models.CharField(verbose_name=u'Даарек', max_length=200, db_index=True)
+    adres = models.CharField(verbose_name=u'Дарек', max_length=200, db_index=True)
     karta = models.CharField(verbose_name=u'Карта', max_length=400)
     facebook = models.CharField(verbose_name=u'Фейсбук', max_length=250, blank=True, null=True)
     instagram = models.CharField(verbose_name=u'Инстаграм', max_length=250, blank=True, null=True)
