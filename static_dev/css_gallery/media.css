@@ -61,6 +61,9 @@
         background-size: 100% 300px;
         min-height: 300px;
     }
+    h2{
+        font-size: 14px;
+    }
 }
 
 /* Extra Small Devices, Phones */
@@ -79,6 +82,9 @@
     }
     .karta{
         font-size: 40px;
+    }
+    h2{
+        font-size: 18px;
     }
 }
 
