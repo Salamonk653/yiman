@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# Create your models here.
 from django.core.paginator import Paginator
 from django.shortcuts import render
 # Create your views here.

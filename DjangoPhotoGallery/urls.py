@@ -16,16 +16,18 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.conf.urls import url, include
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('social-auth/', include('social_django.urls', namespace="social")),
-    path('admin/', admin.site.urls),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('', include('news.urls')),
-    path('ru/', include('news.ru_urls')),
-    path('mediaportal/', include('photo.urls')),
-    path('ru/mediaportal/', include('photo.ru_urls')),
+    url(r'^social-auth/', include('social_django.urls', namespace="social")),
+    url(r"^logout/", auth_views.LogoutView.as_view(), name="logout"),
+    url(r'^admin/', admin.site.urls),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^', include('news.urls')),
+    url(r'^ru/', include('news.ru_urls')),
+    url(r'^mediaportal/', include('photo.urls')),
+    url(r'^ru/mediaportal/', include('photo.ru_urls')),
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

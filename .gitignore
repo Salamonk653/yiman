@@ -4,3 +4,8 @@ myvenv
 db.sqlite3
 .DS_Store
 galley
+test.sqlite3
+6.0
+venv
+.idea
+.gitignore

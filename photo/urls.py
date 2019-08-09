@@ -1,11 +1,11 @@
-from django.urls import path
+from django.conf.urls import url
 
 from photo.views import *
 
 urlpatterns = [
-    path('', HomePhoto, name='volonterlor'),
-    path('media/gallery/', GalleeryList.as_view(), name='gallery_list'),
-    path('media/gallery/album/<str:slug>/', ImageList, name='album_detail'),
-    path('media/gallery/video/', VideoList.as_view(), name='video_list'),
-    path('media/gallery/media/', MediaList.as_view(), name='media_list'),
+    url(r'^$', HomePhoto, name='volonterlor'),
+    url(r'^media/gallery/$', GalleeryList.as_view(), name='gallery_list'),
+    url(r'^media/gallery/album/(?P<slug>[\w-]+)/$', ImageList, name='album_detail'),
+    url(r'^media/gallery/video/$', VideoList.as_view(), name='video_list'),
+    url(r'^media/gallery/media/$', MediaList.as_view(), name='media_list'),
 ]

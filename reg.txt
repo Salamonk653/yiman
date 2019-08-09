@@ -1,5 +1,5 @@
-Django==2.2.1
-django-allauth==0.39.1
+Django==1.11.23
+social-auth-app-django
 django-ckeditor==5.7.1
 django-cleanup==4.0.0
 django-elasticsearch-dsl==0.5.1
